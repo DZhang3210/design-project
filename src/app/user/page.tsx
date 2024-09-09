@@ -77,8 +77,8 @@ export default function UserPage() {
   ];
 
   return (
-    <div className="container px-4 md:px-6 py-8">
-      <div className="grid gap-6 md:grid-cols-[1fr_2fr]">
+    <div className="w-full px-4 md:px-6 py-8 flex justify-center">
+      <div className="grid gap-6 md:grid-cols-[1fr_2fr] w-5/6">
         <Card>
           <CardHeader>
             <CardTitle>User Profile</CardTitle>
