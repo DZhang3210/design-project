@@ -1,4 +1,4 @@
-import { run } from '../../lib/mongodb';
+import { run } from '../../src/lib/mongodb';
 
 export default async function handler(req, res) {
   try {
