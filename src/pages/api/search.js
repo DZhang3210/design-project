@@ -1,4 +1,4 @@
-import { MongoClinet } from 'mongodb';
+import { MongoClient } from 'mongodb';
 
 const uri = process.env.MONGODB.URI;
 const client = new MongoClient(uri, {
