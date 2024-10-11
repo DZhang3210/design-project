@@ -1,7 +1,5 @@
 import pandas as pd
 
-# Dataset link: https://download.cms.gov/nppes/NPI_Files.html
-
 # Path to the CSV file
 csv_file_path = "enter file path"
 output_file_path = "enter output path"
@@ -23,6 +21,10 @@ new_column_names = {
     'Provider Business Practice Location Address Telephone Number': 'Telephone Number',
     'Provider Business Practice Location Address Fax Number': 'Fax Number',
 }
+
+# Define the columns for NPI and Replacement NPI
+npi_column = 'NPI'
+replacement_npi_column = 'Replacement NPI'
 
 # Define the columns for deactivated and reactivated dates
 deactivated_column = 'NPI Deactivation Date'  
@@ -57,6 +59,10 @@ try:
             country_condition = (chunk[country_column] == 'US')
             condition_to_keep = condition_to_keep & country_condition
 
+        # Step 5: Overwrite 'NPI' with 'Replacement NPI' where 'Replacement NPI' exists
+        if replacement_npi_column in chunk.columns and npi_column in chunk.columns:
+            chunk[npi_column] = chunk[replacement_npi_column].where(pd.notna(chunk[replacement_npi_column]), chunk[npi_column])
+
         # Filter the chunk to keep only rows that match both conditions
         chunk_filtered = chunk[condition_to_keep]
 
@@ -67,7 +73,7 @@ try:
         else:
             chunk_filtered.to_csv(output_file_path, mode='a', index=False, header=False)
 
-    print(f"CSV with updated column names, truncated postal codes, filtered rows based on dates, and 'US' country code saved to {output_file_path}")
+    print(f"CSV with updated column names, truncated postal codes, filtered rows, 'US' country code, and NPI replacements saved to {output_file_path}")
 
 except Exception as e:
     print(f"Error occurred: {e}")
