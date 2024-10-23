@@ -67,27 +67,6 @@ const SearchBar = () => {
             </SelectContent>
           </Select>
         </div>
-        <Input
-          className="max-w-lg flex-1 bg-white"
-          placeholder="Medical condition"
-          type="text"
-          onChange={(e) => setCondition(e.target.value)} // Update condition state
-        />
-        <div>
-          <Select onValueChange={setInsurance}>
-            {" "}
-            {/* Update insurance state */}
-            <SelectTrigger className="bg-white">
-              <SelectValue placeholder="Insurance" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="medicare">Medicare</SelectItem>
-              <SelectItem value="medicaid">Medicaid</SelectItem>
-              <SelectItem value="private">Private Insurance</SelectItem>
-              <SelectItem value="uninsured">Uninsured</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
 
         <Button
           type="submit"
