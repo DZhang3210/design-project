@@ -29,7 +29,7 @@ export default function ProviderFocusPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen items-center">
       <main className="flex-1">
         <div className="container px-4 md:px-6 py-8">
           <div className="grid gap-6 lg:grid-cols-2">

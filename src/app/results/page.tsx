@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MapPin, Star } from "lucide-react";
 import Link from "next/link";
 import SearchBar from "../_components/search-bar";
+import { Button } from "@/components/ui/button";
 
 // Dummy data for medical providers
 const providers = [
@@ -99,7 +100,14 @@ export default function ResultsPage() {
               {providers.map((provider) => (
                 <Card key={provider.id}>
                   <CardHeader>
-                    <CardTitle>{provider.name}</CardTitle>
+                    <CardTitle className="text-lg">
+                      <Link
+                        href={`/provider/${provider.id}`}
+                        className="hover:underline"
+                      >
+                        {provider.name}
+                      </Link>
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="text-sm text-gray-500 mb-2">
@@ -128,6 +136,14 @@ export default function ResultsPage() {
                         ({provider.reviews} reviews)
                       </span>
                     </div>
+                    <Button variant="outline" className="mt-4">
+                      <Link
+                        href={`/provider/${provider.id}`}
+                        className="text-sm text-primary"
+                      >
+                        Schedule Appointment
+                      </Link>
+                    </Button>
                   </CardContent>
                 </Card>
               ))}

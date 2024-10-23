@@ -9,6 +9,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CalendarDays, MapPin, Star } from "lucide-react";
+import Link from "next/link";
 
 export default function UserPage() {
   // Dummy user data
@@ -98,7 +99,7 @@ export default function UserPage() {
               <p className="text-sm text-gray-500">{user.email}</p>
               <p className="text-sm text-gray-500">Age: {user.age}</p>
             </div>
-            <Button>Edit Profile</Button>
+            {/* <Button>Edit Profile</Button> */}
           </CardContent>
         </Card>
         <div className="space-y-6">
@@ -134,7 +135,12 @@ export default function UserPage() {
                       <div className="flex justify-between items-start">
                         <div>
                           <h3 className="font-semibold">
-                            {appointment.doctor}
+                            <Link
+                              href={`/provider/${appointment.id}`}
+                              className="hover:underline"
+                            >
+                              {appointment.doctor}
+                            </Link>
                           </h3>
                           <p className="text-sm text-gray-500">
                             {appointment.specialty}
@@ -174,7 +180,12 @@ export default function UserPage() {
                       <div className="flex justify-between items-start">
                         <div>
                           <h3 className="font-semibold">
-                            {appointment.doctor}
+                            <Link
+                              href={`/provider/${appointment.id}`}
+                              className="hover:underline"
+                            >
+                              {appointment.doctor}
+                            </Link>
                           </h3>
                           <p className="text-sm text-gray-500">
                             {appointment.specialty}
