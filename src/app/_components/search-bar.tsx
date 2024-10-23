@@ -12,11 +12,10 @@ import { Search } from "lucide-react";
 import React from "react";
 import { useState } from "react";
 
-
 const SearchBar = () => {
   // States for form fields
-  const [location, setLocation] = useState('');
-  const [condition, setCondition] = useState('');
+  const [location, setLocation] = useState("");
+  const [condition, setCondition] = useState("");
   const [insurance, setInsurance] = useState<string | undefined>(undefined);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -27,13 +26,17 @@ const SearchBar = () => {
     console.log("Medical Condition:", condition);
     console.log("Insurance:", insurance);
 
-    alert(`Form submitted!\nLocation: ${location}\nCondition: ${condition}\nInsurance: ${insurance}`);
+    alert(
+      `Form submitted!\nLocation: ${location}\nCondition: ${condition}\nInsurance: ${insurance}`
+    );
   };
 
   return (
     <div className="w-full space-y-2 max-w-xl">
-<<<<<<< HEAD
-      <form className="flex flex-col space-y-2 sm:flex-row   sm:space-x-2 sm:space-y-0 items-center justify-center">
+      <form
+        className="flex flex-col space-y-2 sm:flex-row sm:space-x-2 sm:space-y-0 items-center justify-center"
+        onSubmit={handleSubmit}
+      >
         <div className="flex flex-col space-y-2">
           <Input
             className="max-w-lg flex-1 bg-white p-2"
@@ -54,14 +57,16 @@ const SearchBar = () => {
           />
           <Select>
             <SelectTrigger className="bg-white text-gray-700 p-2">
-=======
-      <form className="flex flex-col space-y-2 sm:flex-row sm:space-x-2 sm:space-y-0 items-center justify-center" onSubmit={handleSubmit}>
-        <Input
-          className="max-w-lg flex-1 bg-white"
-          placeholder="Enter your location"
-          type="text"
-          onChange={(e) => setLocation(e.target.value)} // Update location state
-        />
+              <SelectValue placeholder="Insurance" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="medicare">Medicare</SelectItem>
+              <SelectItem value="medicaid">Medicaid</SelectItem>
+              <SelectItem value="private">Private Insurance</SelectItem>
+              <SelectItem value="uninsured">Uninsured</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
         <Input
           className="max-w-lg flex-1 bg-white"
           placeholder="Medical condition"
@@ -69,9 +74,10 @@ const SearchBar = () => {
           onChange={(e) => setCondition(e.target.value)} // Update condition state
         />
         <div>
-          <Select onValueChange={setInsurance}> {/* Update insurance state */}
+          <Select onValueChange={setInsurance}>
+            {" "}
+            {/* Update insurance state */}
             <SelectTrigger className="bg-white">
->>>>>>> 9634041320167259ab9b083cb155bef5a6a247e0
               <SelectValue placeholder="Insurance" />
             </SelectTrigger>
             <SelectContent>
