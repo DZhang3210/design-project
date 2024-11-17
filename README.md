@@ -20,6 +20,23 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Features
+- [x] Register/Login/Logout
+- [x] Hashed passwords
+- [x] CSRF Protection
+- [x] Search for providers by location
+- [x] Search for providers by specialty
+- [ ] Search for providers by insurance
+- [x] Book appointments
+- [ ] Cancel appointments
+- [x] home.html
+- [ ] login.html
+- [x] search.html
+- [ ] results.html
+- [ ] book.html (when user selects provider from results page, display all of the provider's available slots)
+- [ ] profile.html (show booked appointments)
+- [ ] chatbot
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
