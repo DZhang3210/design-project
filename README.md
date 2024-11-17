@@ -28,7 +28,7 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 - [x] Search for providers by specialty
 - [ ] Search for providers by insurance
 - [x] Book appointments
-- [ ] Cancel appointments
+- [x] Cancel appointments
 - [x] home.html
 - [ ] login.html
 - [x] search.html
