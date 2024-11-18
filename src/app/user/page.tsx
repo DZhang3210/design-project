@@ -213,7 +213,7 @@ export default function UserPage() {
             <CardHeader>
               <CardTitle>Your Reviews</CardTitle>
               <CardDescription>
-                Reviews you've left for healthcare providers
+                Reviews you&apos;ve left for healthcare providers
               </CardDescription>
             </CardHeader>
             <CardContent>

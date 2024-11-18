@@ -5,7 +5,7 @@ import React from "react";
 
 const NavBar = () => {
   return (
-    <header className="px-4 lg:px-6 h-14 flex items-center sticky top-0 bg-white z-[100]">
+    <header className="px-4 lg:px-6 h-14 flex items-center sticky top-0 bg-white z-[100] text-black">
       <Link className="flex items-center justify-center" href="/">
         <MapPin className="h-6 w-6 text-primary" />
         <span className="ml-2 text-2xl font-bold">MedConnect</span>

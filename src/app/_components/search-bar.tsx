@@ -15,6 +15,7 @@ import { useState } from "react";
 const SearchBar = () => {
   // States for form fields
   const [location, setLocation] = useState("");
+  const [radius, setRadius] = useState(10);
   const [condition, setCondition] = useState("");
   const [insurance, setInsurance] = useState<string | undefined>(undefined);
 
@@ -39,23 +40,32 @@ const SearchBar = () => {
       >
         <div className="flex flex-col space-y-2">
           <Input
-            className="max-w-lg flex-1 bg-white p-2"
+            className="max-w-lg flex-1 bg-white p-2 text-black"
             placeholder="Enter your location"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
             type="text"
           />
           <Input
-            className="max-w-lg flex-1 bg-white p-2"
+            className="max-w-lg flex-1 bg-white p-2 text-black"
             placeholder="Radius (miles)"
             type="number"
+            value={radius}
+            onChange={(e) => setRadius(parseInt(e.target.value))}
           />
         </div>
         <div className="flex flex-col space-y-2">
           <Input
-            className="max-w-lg flex-1 bg-white p-2"
+            className="max-w-lg flex-1 bg-white p-2 text-black"
             placeholder="Medical condition"
             type="text"
+            value={condition}
+            onChange={(e) => setCondition(e.target.value)}
           />
-          <Select>
+          <Select
+            value={insurance}
+            onValueChange={(value) => setInsurance(value)}
+          >
             <SelectTrigger className="bg-white text-gray-700 p-2">
               <SelectValue placeholder="Insurance" />
             </SelectTrigger>

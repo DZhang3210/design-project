@@ -1,12 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   Card,
   CardContent,
@@ -14,10 +6,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { MapPin, Search, Shield, Clock, Star } from "lucide-react";
+import { MapPin, Shield, Clock, Star } from "lucide-react";
 import Link from "next/link";
 import SearchBar from "./search-bar";
-import Footer from "./footer";
 
 export default function HomePage() {
   return (
@@ -41,7 +32,7 @@ export default function HomePage() {
         </section>
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 flex justify-center">
           <div className="container px-4 md:px-6">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12 text-primary">
               Why Choose MedConnect?
             </h2>
             <div className="grid gap-6 lg:grid-cols-3">
@@ -109,7 +100,7 @@ export default function HomePage() {
         </section>
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 flex justify-center">
           <div className="container px-4 md:px-6">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12 text-primary">
               What Our Users Say
             </h2>
             <div className="grid gap-6 lg:grid-cols-3">
@@ -142,7 +133,7 @@ export default function HomePage() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p>"{testimonial.comment}"</p>
+                    <p>&quot;{testimonial.comment}&quot;</p>
                   </CardContent>
                 </Card>
               ))}

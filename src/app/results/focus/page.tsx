@@ -8,7 +8,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { MapPin, Star, Clock, Phone, Mail, Globe } from "lucide-react";
-import { useState } from "react";
 
 export default function ProviderFocusPage() {
   // Dummy data for the provider
