@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,13 +11,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CalendarDays, MapPin, Star } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function UserPage() {
+  const router = useRouter();
   // Dummy user data
   const user = {
     name: "Alice Johnson",
     email: "alice.johnson@example.com",
-    age: 32,
+    insurance: "Blue Shield",
     avatar: "/placeholder.svg?height=100&width=100",
   };
 
@@ -97,9 +100,11 @@ export default function UserPage() {
             <div className="space-y-1 text-center">
               <h2 className="text-2xl font-bold">{user.name}</h2>
               <p className="text-sm text-gray-500">{user.email}</p>
-              <p className="text-sm text-gray-500">Age: {user.age}</p>
+              <p className="text-sm text-gray-500">
+                Insurance: {user.insurance}
+              </p>
             </div>
-            {/* <Button>Edit Profile</Button> */}
+            <Button onClick={() => router.push("/login")}>Logout</Button>
           </CardContent>
         </Card>
         <div className="space-y-6">
@@ -146,7 +151,13 @@ export default function UserPage() {
                             {appointment.specialty}
                           </p>
                         </div>
-                        <Button variant="outline" size="sm">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() =>
+                            router.push(`/provider/${appointment.id}`)
+                          }
+                        >
                           Reschedule
                         </Button>
                       </div>
@@ -191,8 +202,14 @@ export default function UserPage() {
                             {appointment.specialty}
                           </p>
                         </div>
-                        <Button variant="outline" size="sm">
-                          View Details
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() =>
+                            router.push(`/provider/${appointment.id}`)
+                          }
+                        >
+                          Reschedule
                         </Button>
                       </div>
                       <div className="mt-2 flex items-center text-sm text-gray-500">

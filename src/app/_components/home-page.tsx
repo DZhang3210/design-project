@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/card";
 import { MapPin, Shield, Clock, Star } from "lucide-react";
 import Link from "next/link";
-import SearchBar from "./search-bar";
 
 export default function HomePage() {
   return (
@@ -26,7 +25,9 @@ export default function HomePage() {
                   condition, and insurance.
                 </p>
               </div>
-              <SearchBar />
+              <Button className="bg-white text-primary hover:bg-white/90">
+                <Link href="/results">Get Started Now</Link>
+              </Button>
             </div>
           </div>
         </section>
@@ -77,7 +78,7 @@ export default function HomePage() {
         </section>
         <section className="w-full py-12 md:py-24 lg:py-32 flex justify-center">
           <div className="container px-4 md:px-6">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12 text-primary">
               Our Healthcare Providers
             </h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">

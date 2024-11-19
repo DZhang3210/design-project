@@ -19,7 +19,7 @@ const NavBar = () => {
         </Link>
         <Link
           className="text-sm font-medium hover:underline underline-offset-4"
-          href="/user"
+          href="/user/1"
         >
           My Account
         </Link>
