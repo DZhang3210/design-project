@@ -33,14 +33,24 @@ export default function LoginPage() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    const content = {
+      name: { first: formData.first, last: formData.last },
+      email: formData.email,
+      password: formData.password,
+      date_of_birth: new Date(formData.date_of_birth).toISOString(), // Convert to ISO
+    };
+    console.log("Form submitted:", content);
+    console.log("Backend URL:", process.env.NEXT_PUBLIC_OLIVER_BACKEND_URL);
     axios
-      .post(`${process.env.oliver_backend_url}/signup`, formData)
-      .then((res: unknown) => {
-        console.log(res);
+      .post(`${process.env.NEXT_PUBLIC_OLIVER_BACKEND_URL}/users/`, content, {
+        headers: { "Content-Type": "application/json" },
+      }) // Use NEXT_PUBLIC_ for env variables
+      .then((res) => {
+        console.log("Response:", res.data);
+      })
+      .catch((err) => {
+        console.error("Error:", err.response?.data || err.message);
       });
-    console.log("Form submitted:", formData);
-    // Here you would typically send the data to your server
   };
 
   return (
@@ -55,20 +65,20 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="firstname">First name</Label>
+              <Label htmlFor="first">First name</Label>
               <Input
-                id="firstname"
-                name="firstname"
+                id="first"
+                name="first"
                 value={formData.first}
                 onChange={handleChange}
                 required
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="lastname">Last name</Label>
+              <Label htmlFor="last">Last name</Label>
               <Input
-                id="lastname"
-                name="lastname"
+                id="last"
+                name="last"
                 value={formData.last}
                 onChange={handleChange}
                 required
@@ -98,10 +108,10 @@ export default function LoginPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="dob">Date of Birth</Label>
+              <Label htmlFor="date_of_birth">Date of Birth</Label>
               <Input
-                id="dob"
-                name="dob"
+                id="date_of_birth"
+                name="date_of_birth"
                 type="date"
                 value={formData.date_of_birth}
                 onChange={handleChange}

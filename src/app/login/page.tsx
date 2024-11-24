@@ -33,7 +33,10 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
     axios
-      .post(`${process.env.oliver_backend_url}/auth/login`, formData)
+      .post(
+        `${process.env.NEXT_PUBLIC_OLIVER_BACKEND_URL}/auth/login`,
+        formData
+      )
       .then((res) => {
         console.log(res);
       })
