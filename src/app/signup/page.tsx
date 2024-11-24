@@ -15,10 +15,12 @@ import Link from "next/link";
 import axios from "axios";
 
 export default function LoginPage() {
-  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
+    first: "",
+    last: "",
     email: "",
     password: "",
+    date_of_birth: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,17 +33,10 @@ export default function LoginPage() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
     axios
-      .post(`${process.env.oliver_backend_url}/auth/login`, formData)
-      .then((res) => {
+      .post(`${process.env.oliver_backend_url}/signup`, formData)
+      .then((res: any) => {
         console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setLoading(false);
       });
     console.log("Form submitted:", formData);
     // Here you would typically send the data to your server
@@ -51,20 +46,29 @@ export default function LoginPage() {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Login</CardTitle>
+          <CardTitle>Sign up</CardTitle>
           <CardDescription>
-            Please enter your details to log in.
+            Please enter your details to sign up.
           </CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="firstname">First name</Label>
               <Input
-                id="email"
-                name="email"
-                type="email"
-                value={formData.email}
+                id="firstname"
+                name="firstname"
+                value={formData.first}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="lastname">Last name</Label>
+              <Input
+                id="lastname"
+                name="lastname"
+                value={formData.last}
                 onChange={handleChange}
                 required
               />
@@ -80,16 +84,39 @@ export default function LoginPage() {
                 required
               />
             </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="dob">Date of Birth</Label>
+              <Input
+                id="dob"
+                name="dob"
+                type="date"
+                value={formData.date_of_birth}
+                onChange={handleChange}
+                required
+              />
+            </div>
           </CardContent>
           <CardFooter className="flex flex-col items-start justify-start">
             <Button type="submit" className="w-full">
-              Log in
+              Sign up
             </Button>
             <Link
-              href="/signup"
+              href="/login"
               className="text-sm text-gray-500 hover:underline"
             >
-              Sign up
+              Log in
             </Link>
           </CardFooter>
         </form>
