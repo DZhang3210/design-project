@@ -35,7 +35,8 @@ export default function LoginPage() {
     axios
       .post(
         `${process.env.NEXT_PUBLIC_OLIVER_BACKEND_URL}/auth/login`,
-        formData
+        formData,
+        { headers: { "Content-Type": "application/json" } }
       )
       .then((res) => {
         console.log(res);

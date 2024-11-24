@@ -10,8 +10,9 @@ import {
 } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { schedules } from "@/lib/schedules";
+import axios from "axios";
 import { MapPin, Star, Clock, Phone, Mail, Globe } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ProviderFocusPage({
   params,
@@ -34,8 +35,57 @@ export default function ProviderFocusPage({
     website: "www.drjohnson.com",
     bio: "Dr. Emily Johnson is a board-certified primary care physician with over 15 years of experience. She specializes in preventive care, chronic disease management, and women's health. Dr. Johnson is known for her compassionate approach and dedication to patient education.",
   };
+  const [selectedSchedule, setSelectedSchedule] = useState<{
+    startTime: string;
+    date: string;
+    timeLength: number;
+  } | null>(null);
+  const [providerSchedule, setProviderSchedule] = useState<unknown[]>([]);
+  useEffect(() => {
+    const fetchProviderSchedule = async () => {
+      const provider_schedule = await axios.get(
+        `${process.env.NEXT_PUBLIC_OLIVER_BACKEND_URL}/providers_schedule/${params.providerId}`,
+        { headers: { "Content-Type": "application/json" } }
+      );
+      setProviderSchedule(provider_schedule.data);
+    };
+    fetchProviderSchedule();
+  }, []);
+  useEffect(() => {
+    console.log(providerSchedule);
+  }, [providerSchedule]);
 
-  const [selectedSchedule, setSelectedSchedule] = useState<number | null>(null);
+  const token = localStorage.getItem("token");
+
+  const onSubmit = async () => {
+    if (!selectedSchedule) {
+      return; // Don't proceed if no schedule is selected
+    }
+
+    // Combine date and time into ISO string format
+    const [hours, minutes] = selectedSchedule.startTime.split(":");
+    const appointmentDate = new Date(selectedSchedule.date);
+    appointmentDate.setHours(parseInt(hours), parseInt(minutes));
+
+    const content = {
+      provider_id: params.providerId,
+      start_datetime: appointmentDate.toISOString(),
+      reason: "I have a headache",
+    };
+    console.log(content);
+
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_OLIVER_BACKEND_URL}/appointment`,
+      content,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(response);
+  };
 
   return (
     <div className="flex flex-col min-h-screen items-center">
@@ -118,12 +168,14 @@ export default function ProviderFocusPage({
                   {schedules.map((schedule, i) => (
                     <Button
                       key={i}
-                      variant={selectedSchedule === i ? "default" : "outline"}
+                      variant={
+                        selectedSchedule === schedule ? "default" : "outline"
+                      }
                       className="w-full justify-start text-left h-auto mt-2"
                       onClick={() =>
-                        selectedSchedule === i
+                        selectedSchedule === schedule
                           ? setSelectedSchedule(null)
-                          : setSelectedSchedule(i)
+                          : setSelectedSchedule(schedule)
                       }
                     >
                       <div className="flex flex-col items-start">
@@ -139,7 +191,9 @@ export default function ProviderFocusPage({
                 </ScrollArea>
               </CardContent>
               <CardFooter>
-                <Button className="w-full">Book an appointment</Button>
+                <Button className="w-full" onClick={onSubmit}>
+                  Book an appointment
+                </Button>
               </CardFooter>
             </Card>
           </div>

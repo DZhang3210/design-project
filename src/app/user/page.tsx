@@ -12,18 +12,52 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CalendarDays, MapPin, Star } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function UserPage() {
   const router = useRouter();
-  // Dummy user data
-  const user = {
+  const [user, setUser] = useState<{
+    name: string;
+    email: string;
+    insurance: string;
+    avatar: string;
+  }>({
     name: "Alice Johnson",
     email: "alice.johnson@example.com",
     insurance: "Blue Shield",
     avatar: "/placeholder.svg?height=100&width=100",
-  };
+  });
 
-  // Dummy appointment data
+  const [token, setToken] = useState<string | null>(null);
+
+  // Load token client-side only
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedToken = localStorage.getItem("token");
+      setToken(savedToken);
+    }
+  }, []);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (token) {
+        try {
+          const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_OLIVER_BACKEND_URL}/users/`,
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          setUser(response.data);
+        } catch (error) {
+          console.error("Error fetching user:", error);
+        }
+      }
+    };
+
+    fetchUser();
+  }, [token]);
+
+  // Dummy data for appointments and reviews
   const currentAppointments = [
     {
       id: 1,
@@ -62,7 +96,6 @@ export default function UserPage() {
     },
   ];
 
-  // Dummy review data
   const reviews = [
     {
       id: 1,
@@ -93,7 +126,7 @@ export default function UserPage() {
               <AvatarFallback>
                 {user.name
                   .split(" ")
-                  .map((n) => n[0])
+                  .map((n: string) => n[0])
                   .join("")}
               </AvatarFallback>
             </Avatar>
