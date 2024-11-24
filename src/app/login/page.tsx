@@ -82,8 +82,8 @@ export default function LoginPage() {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col items-start justify-start">
-            <Button type="submit" className="w-full">
-              Log in
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? "Logging in..." : "Log in"}
             </Button>
             <Link
               href="/signup"

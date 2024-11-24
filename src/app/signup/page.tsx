@@ -33,9 +33,10 @@ export default function LoginPage() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     axios
       .post(`${process.env.oliver_backend_url}/signup`, formData)
-      .then((res: any) => {
+      .then((res: unknown) => {
         console.log(res);
       });
     console.log("Form submitted:", formData);
