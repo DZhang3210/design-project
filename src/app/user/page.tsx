@@ -9,11 +9,18 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CalendarDays, MapPin, Star } from "lucide-react";
+import { CalendarDays, Star } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
+
+type Appointment = {
+  id: string;
+  provider_id: string;
+  start_datetime: string;
+  reason: string;
+};
 
 export default function UserPage() {
   const router = useRouter();
@@ -22,6 +29,7 @@ export default function UserPage() {
       first: string;
       last: string;
     };
+    appointments: Appointment[];
     email: string;
     insurance: string;
     avatar: string;
@@ -30,6 +38,7 @@ export default function UserPage() {
       first: "",
       last: "",
     },
+    appointments: [],
     email: "",
     insurance: "",
     avatar: "",
@@ -64,43 +73,13 @@ export default function UserPage() {
   }, [token]);
 
   // Dummy data for appointments and reviews
-  const currentAppointments = [
-    {
-      id: 1,
-      doctor: "Dr. Emily Smith",
-      specialty: "Cardiologist",
-      date: "2023-06-15",
-      time: "10:00 AM",
-      location: "Heart Health Clinic",
-    },
-    {
-      id: 2,
-      doctor: "Dr. Michael Lee",
-      specialty: "Dermatologist",
-      date: "2023-06-20",
-      time: "2:30 PM",
-      location: "Skin Care Center",
-    },
-  ];
+  const currentAppointments = user.appointments.filter(
+    (appointment) => new Date(appointment.start_datetime) > new Date()
+  );
 
-  const pastAppointments = [
-    {
-      id: 3,
-      doctor: "Dr. Sarah Patel",
-      specialty: "General Practitioner",
-      date: "2023-05-10",
-      time: "11:15 AM",
-      location: "City Medical Center",
-    },
-    {
-      id: 4,
-      doctor: "Dr. David Wilson",
-      specialty: "Orthopedist",
-      date: "2023-04-22",
-      time: "3:00 PM",
-      location: "Joint & Bone Clinic",
-    },
-  ];
+  const pastAppointments = user.appointments.filter(
+    (appointment) => new Date(appointment.start_datetime) < new Date()
+  );
 
   const reviews = [
     {
@@ -176,21 +155,21 @@ export default function UserPage() {
                         <div>
                           <h3 className="font-semibold">
                             <Link
-                              href={`/provider/${appointment.id}`}
+                              href={`/provider/${appointment.provider_id}`}
                               className="hover:underline"
                             >
-                              {appointment.doctor}
+                              {appointment.provider_id}
                             </Link>
                           </h3>
                           <p className="text-sm text-gray-500">
-                            {appointment.specialty}
+                            {appointment.reason}
                           </p>
                         </div>
                         <Button
                           variant="outline"
                           size="sm"
                           onClick={() =>
-                            router.push(`/provider/${appointment.id}`)
+                            router.push(`/provider/${appointment.provider_id}`)
                           }
                         >
                           Reschedule
@@ -198,11 +177,7 @@ export default function UserPage() {
                       </div>
                       <div className="mt-2 flex items-center text-sm text-gray-500">
                         <CalendarDays className="mr-2 h-4 w-4" />
-                        {appointment.date} at {appointment.time}
-                      </div>
-                      <div className="mt-1 flex items-center text-sm text-gray-500">
-                        <MapPin className="mr-2 h-4 w-4" />
-                        {appointment.location}
+                        {new Date(appointment.start_datetime).toLocaleString()}
                       </div>
                     </div>
                   ))}
@@ -230,18 +205,18 @@ export default function UserPage() {
                               href={`/provider/${appointment.id}`}
                               className="hover:underline"
                             >
-                              {appointment.doctor}
+                              {appointment.provider_id}
                             </Link>
                           </h3>
                           <p className="text-sm text-gray-500">
-                            {appointment.specialty}
+                            {appointment.reason}
                           </p>
                         </div>
                         <Button
                           variant="outline"
                           size="sm"
                           onClick={() =>
-                            router.push(`/provider/${appointment.id}`)
+                            router.push(`/provider/${appointment.provider_id}`)
                           }
                         >
                           Reschedule
@@ -249,11 +224,7 @@ export default function UserPage() {
                       </div>
                       <div className="mt-2 flex items-center text-sm text-gray-500">
                         <CalendarDays className="mr-2 h-4 w-4" />
-                        {appointment.date} at {appointment.time}
-                      </div>
-                      <div className="mt-1 flex items-center text-sm text-gray-500">
-                        <MapPin className="mr-2 h-4 w-4" />
-                        {appointment.location}
+                        {new Date(appointment.start_datetime).toLocaleString()}
                       </div>
                     </div>
                   ))}
