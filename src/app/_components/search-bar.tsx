@@ -1,47 +1,84 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import {
-  Select,
+  Select as ReactSelect,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { specialties } from "@/lib/specialties";
 import { Search } from "lucide-react";
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import Select from "react-select";
 
-const SearchBar = () => {
+const SearchBar = ({
+  handleSubmit,
+}: {
+  handleSubmit: (
+    e: React.FormEvent,
+    street: string,
+    city: string,
+    state: string,
+    zip: string,
+    radius: number,
+    specialty: string | null,
+    insurance: string | undefined
+  ) => void;
+}) => {
   // States for form fields
-  const [location, setLocation] = useState("");
+  const [street, setStreet] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zip, setZip] = useState("");
   const [radius, setRadius] = useState(10);
-  const [specialty, setSpecialty] = useState("");
+  // const [specialty, _setSpecialty] = useState<string | null>(null);
+  const specialty = null;
   const [insurance, setInsurance] = useState<string | undefined>(undefined);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault(); // Prevent form from refreshing the page
-
-    // Handle form submission logic (e.g., API request or search logic)
-    console.log("Location:", location);
-    console.log("Medical Condition:", specialty);
-    console.log("Insurance:", insurance);
-
-    alert(
-      `Form submitted!\nLocation: ${location}\nCondition: ${specialty}\nInsurance: ${insurance}`
-    );
-  };
 
   return (
     <div className="w-full space-y-2">
       <form
         className="grid grid-cols-11 gap-2 items-center justify-center max-w-2xl mx-auto"
-        onSubmit={handleSubmit}
+        onSubmit={(e) =>
+          handleSubmit(
+            e,
+            street,
+            city,
+            state,
+            zip,
+            radius,
+            specialty,
+            insurance
+          )
+        }
       >
         <Input
-          className="bg-white p-2 text-black col-span-4"
-          placeholder="Enter your location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
+          className="bg-white p-2 text-black col-span-3"
+          placeholder="Street"
+          value={street}
+          onChange={(e) => setStreet(e.target.value)}
+          type="text"
+        />
+        <Input
+          className="bg-white p-2 text-black col-span-3"
+          placeholder="City"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          type="text"
+        />
+        <Input
+          className="bg-white p-2 text-black col-span-2"
+          placeholder="State"
+          value={state}
+          onChange={(e) => setState(e.target.value)}
+          type="text"
+        />
+        <Input
+          className="bg-white p-2 text-black col-span-2"
+          placeholder="Zip"
+          value={zip}
+          onChange={(e) => setZip(e.target.value)}
           type="text"
         />
         <Input
@@ -52,14 +89,16 @@ const SearchBar = () => {
           onChange={(e) => setRadius(parseInt(e.target.value))}
         />
 
-        <Input
-          className=" bg-white p-2 text-black col-span-3"
-          placeholder="Medical condition"
-          type="text"
-          value={specialty}
-          onChange={(e) => setSpecialty(e.target.value)}
-        />
-        <Select
+        <div className="col-span-5">
+          <Select
+            options={specialties}
+            // value={specialty}
+            // onChange={(value) => setSpecialty(value)}
+            className="text-black"
+            instanceId="specialty"
+          />
+        </div>
+        <ReactSelect
           value={insurance}
           onValueChange={(value) => setInsurance(value)}
         >
@@ -67,12 +106,19 @@ const SearchBar = () => {
             <SelectValue placeholder="Insurance" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="medicare">Medicare</SelectItem>
-            <SelectItem value="medicaid">Medicaid</SelectItem>
-            <SelectItem value="private">Private Insurance</SelectItem>
-            <SelectItem value="uninsured">Uninsured</SelectItem>
+            <SelectItem value="Blue Cross Blue Shield">
+              Blue Cross Blue Shield
+            </SelectItem>
+            <SelectItem value="UnitedHealthcare">UnitedHealthcare</SelectItem>
+            <SelectItem value="Aetna">Aetna</SelectItem>
+            <SelectItem value="Cigna">Cigna</SelectItem>
+            <SelectItem value="Humana">Humana</SelectItem>
+            <SelectItem value="Kaiser Permanente">Kaiser Permanente</SelectItem>
+            <SelectItem value="Molina Healthcare">Molina Healthcare</SelectItem>
+            <SelectItem value="Centene">Centene</SelectItem>
+            <SelectItem value="Oscar Health">Oscar Health</SelectItem>
           </SelectContent>
-        </Select>
+        </ReactSelect>
 
         <button
           type="submit"

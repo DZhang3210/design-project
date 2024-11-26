@@ -1,10 +1,14 @@
 "use client";
 import { MapPin } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const NavBar = () => {
-  const token = localStorage.getItem("token");
+  const [token, setToken] = useState<string | null>(null);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setToken(token);
+  }, []);
   return (
     <header className="px-4 lg:px-6 h-14 flex items-center sticky top-0 bg-white z-[100] text-black">
       <Link className="flex items-center justify-center" href="/">

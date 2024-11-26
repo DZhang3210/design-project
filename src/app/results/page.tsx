@@ -1,12 +1,63 @@
+"use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import SearchBar from "../_components/search-bar";
 import { Button } from "@/components/ui/button";
-import { providers } from "@/lib/providers";
+import { useState } from "react";
+import axios from "axios";
 
 // Dummy data for medical providers
+type Provider = {
+  _id: string;
+  properties: {
+    "Provider First Name": string;
+    "Provider Last Name": string;
+  };
+};
 
 export default function ResultsPage() {
+  const [results, setResults] = useState<Provider[]>([]);
+
+  const handleSubmit = (
+    e: React.FormEvent,
+    street: string,
+    city: string,
+    state: string,
+    zip: string,
+    radius: number,
+    specialty: string | null,
+    insurance: string | undefined
+  ) => {
+    e.preventDefault();
+
+    // Trim whitespace from all string inputs
+    const params = {
+      street: street.trim(),
+      city: city.trim(),
+      state: state.trim(),
+      zip: zip.trim(),
+      radius,
+      specialty: specialty?.trim(),
+      insurance: insurance?.trim(),
+    };
+
+    console.log(params);
+
+    axios
+      .get(`${process.env.NEXT_PUBLIC_ANDY_BACKEND_URL}/providers/search`, {
+        params,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        setResults(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.error("Error:", err.response?.data || err.message);
+      });
+  };
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
@@ -21,7 +72,7 @@ export default function ResultsPage() {
                   Refine your search to find the perfect healthcare match.
                 </p>
               </div>
-              <SearchBar />
+              <SearchBar handleSubmit={handleSubmit} />
             </div>
           </div>
         </section>
@@ -31,22 +82,23 @@ export default function ResultsPage() {
               Search Results
             </h2>
             <div className="grid gap-6 lg:grid-cols-2">
-              {providers.map((provider) => (
-                <Card key={provider.id}>
+              {results.map((provider: Provider) => (
+                <Card key={provider._id}>
                   <CardHeader>
                     <CardTitle className="text-lg">
                       <Link
-                        href={`/provider/${provider.id}`}
+                        href={`/provider/${provider._id}`}
                         className="hover:underline"
                       >
-                        {provider.name}
+                        {provider["properties"]["Provider First Name"]}{" "}
+                        {provider["properties"]["Provider Last Name"]}
                       </Link>
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <Button variant="outline" className="mt-1">
                       <Link
-                        href={`/provider/${provider.id}`}
+                        href={`/provider/${provider._id}`}
                         className="text-sm text-primary"
                       >
                         Schedule Appointment
