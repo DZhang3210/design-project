@@ -35,10 +35,11 @@ export default function ProviderFocusPage({
   const [token, setToken] = useState<string | null>(null);
   // Dummy data for the provider
   useEffect(() => {
-    setToken(localStorage.getItem("token"));
+    const token = localStorage.getItem("token");
     if (!token) {
       router.push("/login");
     }
+    setToken(token);
   }, []);
 
   const [selectedSchedule, setSelectedSchedule] = useState<string | null>(null);
