@@ -18,15 +18,21 @@ import axios from "axios";
 export default function UserPage() {
   const router = useRouter();
   const [user, setUser] = useState<{
-    name: string;
+    name: {
+      first: string;
+      last: string;
+    };
     email: string;
     insurance: string;
     avatar: string;
   }>({
-    name: "Alice Johnson",
-    email: "alice.johnson@example.com",
-    insurance: "Blue Shield",
-    avatar: "/placeholder.svg?height=100&width=100",
+    name: {
+      first: "",
+      last: "",
+    },
+    email: "",
+    insurance: "",
+    avatar: "",
   });
 
   const [token, setToken] = useState<string | null>(null);
@@ -113,6 +119,7 @@ export default function UserPage() {
     },
   ];
 
+  console.log("USER:", user);
   return (
     <div className="w-full px-4 md:px-6 py-8 flex justify-center">
       <div className="grid gap-6 md:grid-cols-[1fr_2fr] w-5/6">
@@ -122,16 +129,11 @@ export default function UserPage() {
           </CardHeader>
           <CardContent className="flex flex-col items-center space-y-4">
             <Avatar className="h-24 w-24">
-              <AvatarImage alt={user.name} src={user.avatar} />
-              <AvatarFallback>
-                {user.name
-                  .split(" ")
-                  .map((n: string) => n[0])
-                  .join("")}
-              </AvatarFallback>
+              <AvatarImage alt={user.name.first} src={user.avatar} />
+              <AvatarFallback>{user.name.first}</AvatarFallback>
             </Avatar>
             <div className="space-y-1 text-center">
-              <h2 className="text-2xl font-bold">{user.name}</h2>
+              <h2 className="text-2xl font-bold">{user.name.first}</h2>
               <p className="text-sm text-gray-500">{user.email}</p>
               <p className="text-sm text-gray-500">
                 Insurance: {user.insurance}

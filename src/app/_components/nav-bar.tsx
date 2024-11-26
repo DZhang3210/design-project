@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 
 const NavBar = () => {
+  const token = localStorage.getItem("token");
   return (
     <header className="px-4 lg:px-6 h-14 flex items-center sticky top-0 bg-white z-[100] text-black">
       <Link className="flex items-center justify-center" href="/">
@@ -17,12 +18,21 @@ const NavBar = () => {
         >
           Search
         </Link>
-        <Link
-          className="text-sm font-medium hover:underline underline-offset-4"
-          href="/user/1"
-        >
-          My Account
-        </Link>
+        {token ? (
+          <Link
+            className="text-sm font-medium hover:underline underline-offset-4"
+            href="/user"
+          >
+            My Account
+          </Link>
+        ) : (
+          <Link
+            className="text-sm font-medium hover:underline underline-offset-4"
+            href="/login"
+          >
+            Login
+          </Link>
+        )}
       </nav>
     </header>
   );
