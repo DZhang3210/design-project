@@ -48,10 +48,11 @@ export default function UserPage() {
 
   // Load token client-side only
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedToken = localStorage.getItem("token");
-      setToken(savedToken);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/login");
     }
+    setToken(token);
   }, []);
 
   useEffect(() => {
