@@ -37,3 +37,6 @@ next-env.d.ts
 
 # csv
 *.csv
+
+#geojson
+*.geojson
