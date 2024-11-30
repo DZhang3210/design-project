@@ -41,17 +41,15 @@ export default function LoginPage() {
         { headers: { "Content-Type": "application/json" } }
       )
       .then((res) => {
-        console.log(res);
         localStorage.setItem("token", res.data.token);
-        router.push("/");
+        router.push("/results");
       })
       .catch((err) => {
-        console.log(err);
+        console.error("Error:", err.response?.data || err.message);
       })
       .finally(() => {
         setLoading(false);
       });
-    console.log("Form submitted:", formData);
     // Here you would typically send the data to your server
   };
 

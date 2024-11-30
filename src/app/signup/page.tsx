@@ -41,16 +41,13 @@ export default function LoginPage() {
       password: formData.password,
       date_of_birth: new Date(formData.date_of_birth).toISOString(), // Convert to ISO
     };
-    console.log("Form submitted:", content);
-    console.log("Backend URL:", process.env.NEXT_PUBLIC_OLIVER_BACKEND_URL);
     axios
       .post(`${process.env.NEXT_PUBLIC_OLIVER_BACKEND_URL}/users/`, content, {
         headers: { "Content-Type": "application/json" },
       }) // Use NEXT_PUBLIC_ for env variables
       .then((res) => {
-        console.log("Response:", res.data);
         localStorage.setItem("token", res.data.token);
-        router.push("/");
+        router.push("/results");
       })
       .catch((err) => {
         console.error("Error:", err.response?.data || err.message);

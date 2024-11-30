@@ -18,6 +18,10 @@ import axios from "axios";
 type Appointment = {
   id: string;
   provider_id: string;
+  provider_name: {
+    first: string;
+    last: string;
+  };
   start_datetime: string;
   reason: string;
 };
@@ -99,7 +103,6 @@ export default function UserPage() {
     },
   ];
 
-  console.log("USER:", user);
   return (
     <div className="w-full px-4 md:px-6 py-8 flex justify-center">
       <div className="grid gap-6 md:grid-cols-[1fr_2fr] w-5/6">
@@ -119,7 +122,14 @@ export default function UserPage() {
                 Insurance: {user.insurance}
               </p>
             </div>
-            <Button onClick={() => router.push("/login")}>Logout</Button>
+            <Button
+              onClick={() => {
+                localStorage.removeItem("token");
+                router.push("/login");
+              }}
+            >
+              Logout
+            </Button>
           </CardContent>
         </Card>
         <div className="space-y-6">
@@ -159,7 +169,8 @@ export default function UserPage() {
                               href={`/provider/${appointment.provider_id}`}
                               className="hover:underline"
                             >
-                              {appointment.provider_id}
+                              {appointment.provider_name.first}{" "}
+                              {appointment.provider_name.last}
                             </Link>
                           </h3>
                           <p className="text-sm text-gray-500">
@@ -206,7 +217,8 @@ export default function UserPage() {
                               href={`/provider/${appointment.id}`}
                               className="hover:underline"
                             >
-                              {appointment.provider_id}
+                              {appointment.provider_name.first}{" "}
+                              {appointment.provider_name.last}
                             </Link>
                           </h3>
                           <p className="text-sm text-gray-500">

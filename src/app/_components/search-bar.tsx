@@ -36,22 +36,46 @@ const SearchBar = ({
   const specialty = null;
   const [insurance, setInsurance] = useState<string | undefined>(undefined);
 
+  // Add error state
+  const [error, setError] = useState<string | null>(null);
+
+  // Add validation function
+  const validateForm = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!street.trim()) {
+      setError("Street address is required");
+      return;
+    }
+    if (!city.trim()) {
+      setError("City is required");
+      return;
+    }
+    if (!state.trim()) {
+      setError("State is required");
+      return;
+    }
+    if (!zip.trim()) {
+      setError("ZIP code is required");
+      return;
+    }
+    if (!radius || radius <= 0) {
+      setError("Please enter a valid radius");
+      return;
+    }
+
+    setError(null);
+    handleSubmit(e, street, city, state, zip, radius, specialty, insurance);
+  };
+
   return (
     <div className="w-full space-y-2">
+      {error && (
+        <div className="text-red-500 text-sm text-center mb-2">{error}</div>
+      )}
       <form
         className="grid grid-cols-11 gap-2 items-center justify-center max-w-2xl mx-auto"
-        onSubmit={(e) =>
-          handleSubmit(
-            e,
-            street,
-            city,
-            state,
-            zip,
-            radius,
-            specialty,
-            insurance
-          )
-        }
+        onSubmit={validateForm}
       >
         <Input
           className="bg-white p-2 text-black col-span-3"

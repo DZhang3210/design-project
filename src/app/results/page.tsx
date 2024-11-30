@@ -41,8 +41,6 @@ export default function ResultsPage() {
       insurance: insurance?.trim(),
     };
 
-    console.log(params);
-
     axios
       .get(`${process.env.NEXT_PUBLIC_ANDY_BACKEND_URL}/providers/search`, {
         params,
@@ -52,7 +50,6 @@ export default function ResultsPage() {
       })
       .then((res) => {
         setResults(res.data);
-        console.log(res.data);
       })
       .catch((err) => {
         console.error("Error:", err.response?.data || err.message);

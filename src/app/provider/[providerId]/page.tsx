@@ -73,9 +73,6 @@ export default function ProviderFocusPage({
     };
     fetchProvider();
   }, []);
-  useEffect(() => {
-    console.log(providerSchedule);
-  }, [providerSchedule]);
 
   const onSubmit = async () => {
     if (!selectedSchedule) {
@@ -90,11 +87,12 @@ export default function ProviderFocusPage({
       provider_id: params.providerId,
       start_datetime: selectedSchedule,
       reason: "I have a headache",
+      provider_first_name: provider?.properties["Provider First Name"],
+      provider_last_name: provider?.properties["Provider Last Name"],
     };
 
     try {
-      console.log(content);
-      const response = await axios.post(
+      await axios.post(
         `${process.env.NEXT_PUBLIC_OLIVER_BACKEND_URL}/users/appointment`,
         content,
         {
@@ -105,7 +103,6 @@ export default function ProviderFocusPage({
         }
       );
       // Handle successful booking
-      console.log("Appointment booked:", response.data);
     } catch (err) {
       setError("Unable to book appointment. Please try again later.");
       console.error("Booking error:", err);
