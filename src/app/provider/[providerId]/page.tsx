@@ -12,6 +12,7 @@ import axios from "axios";
 import { MapPin, Phone } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function ProviderFocusPage({
   params,
@@ -77,6 +78,7 @@ export default function ProviderFocusPage({
   const onSubmit = async () => {
     if (!selectedSchedule) {
       setError("Please select a time slot");
+      toast.error("Please select a time slot");
       return;
     }
 
@@ -103,9 +105,11 @@ export default function ProviderFocusPage({
         }
       );
       // Handle successful booking
+      toast.success("Appointment booked successfully!");
     } catch (err) {
       setError("Unable to book appointment. Please try again later.");
       console.error("Booking error:", err);
+      toast.error("Unable to book appointment. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }

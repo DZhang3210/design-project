@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -50,6 +51,10 @@ export default function LoginPage() {
         router.push("/results");
       })
       .catch((err) => {
+        toast.error(
+          "Unable to sign up. Please try again later.",
+          err.message || err.response?.data
+        );
         console.error("Error:", err.response?.data || err.message);
       });
   };
