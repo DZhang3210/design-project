@@ -14,6 +14,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 
 type Appointment = {
   id: string;
@@ -77,6 +78,25 @@ export default function UserPage() {
     fetchUser();
   }, [token]);
 
+  const onDeleteAppointment = async (appointmentId: string) => {
+    try {
+      await axios
+        .delete(
+          `${process.env.NEXT_PUBLIC_OLIVER_BACKEND_URL}/users/appointment/${appointmentId}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then(() => {
+          toast.success("Appointment cancelled");
+          window.location.reload();
+        })
+        .catch((error) => {
+          toast.error("Error cancelling appointment");
+          console.error("Error deleting appointment:", error);
+        });
+    } catch (error) {
+      console.error("Error deleting appointment:", error);
+    }
+  };
   // Dummy data for appointments and reviews
   const currentAppointments = user.appointments.filter(
     (appointment) => new Date(appointment.start_datetime) > new Date()
@@ -178,13 +198,11 @@ export default function UserPage() {
                           </p>
                         </div>
                         <Button
-                          variant="outline"
+                          variant="destructive"
                           size="sm"
-                          onClick={() =>
-                            router.push(`/provider/${appointment.provider_id}`)
-                          }
+                          onClick={() => onDeleteAppointment(appointment.id)}
                         >
-                          Reschedule
+                          Cancel
                         </Button>
                       </div>
                       <div className="mt-2 flex items-center text-sm text-gray-500">
@@ -226,7 +244,7 @@ export default function UserPage() {
                           </p>
                         </div>
                         <Button
-                          variant="outline"
+                          variant="destructive"
                           size="sm"
                           onClick={() =>
                             router.push(`/provider/${appointment.provider_id}`)

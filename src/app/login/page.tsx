@@ -22,6 +22,7 @@ export default function LoginPage() {
     email: "",
     password: "",
   });
+  const [error, setError] = useState<string>("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -34,6 +35,7 @@ export default function LoginPage() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+    setError("");
     axios
       .post(
         `${process.env.NEXT_PUBLIC_OLIVER_BACKEND_URL}/auth/login`,
@@ -45,6 +47,7 @@ export default function LoginPage() {
         router.push("/results");
       })
       .catch((err) => {
+        setError("Invalid email or password");
         console.error("Error:", err.response?.data || err.message);
       })
       .finally(() => {
@@ -64,6 +67,7 @@ export default function LoginPage() {
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
+            {error && <div className="text-red-500 text-sm">{error}</div>}
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
