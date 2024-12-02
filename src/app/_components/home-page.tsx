@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { MapPin, Shield, Clock, Star } from "lucide-react";
 import Link from "next/link";
+import Chatbot from "./chatbot";
 
 export default function HomePage() {
   return (
@@ -160,6 +161,7 @@ export default function HomePage() {
           </div>
         </section>
       </main>
+      <Chatbot />
     </div>
   );
 }
